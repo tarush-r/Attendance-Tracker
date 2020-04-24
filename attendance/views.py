@@ -11,7 +11,7 @@ def index(request):
 def homePage(request):
     print(request.user)
     if str(request.user)=='AnonymousUser':
-        return HttpResponseRedirect('http://127.0.0.1:8000/accounts/login/')
+        return HttpResponseRedirect('/accounts/login/')
     subjects=Subject.objects.filter(userid__exact=request.user)
     
     if request.method =='POST':
@@ -33,7 +33,7 @@ def homePage(request):
 def deleteSub(request, subject_id):
     subject = Subject.objects.get(id=subject_id)
     subject.delete()
-    return HttpResponseRedirect('http://127.0.0.1:8000/home/')
+    return HttpResponseRedirect('/home/')
 
 
 def updateAttendance(request, subject_id, attended):
@@ -47,6 +47,6 @@ def updateAttendance(request, subject_id, attended):
         subject.attendance='{0:.2f}'.format((subject.attended/subject.total)*100)
 
     subject.save()
-    return HttpResponseRedirect('http://127.0.0.1:8000/home/')
+    return HttpResponseRedirect('/home/')
 
 
