@@ -1,0 +1,172 @@
+{% load static %}
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="text/css" href="../attendance/css/home.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300&display=swap" rel="stylesheet">
+
+  <!--CSS here-->
+  <style>
+    .center {
+      margin: auto;
+      margin-top: 30px;
+      width: 60%;
+      border: 3px solid black;
+      padding: 10px;
+    }
+
+    .center_inp {
+      margin: auto;
+      margin-top: 30px;
+      width: 60%;
+      border: 1px solid black;
+      padding: 10px;
+    }
+
+    .card_center {
+      margin: auto;
+      margin-top: 20px;
+      width: 60%;
+      padding: 0.5px;
+      
+    }
+
+    .card-body {
+      background-color: gray;
+    }
+
+    .btn_margin {
+      margin-right: 30px;
+
+    }
+
+    .input_box {
+      width: 300px;
+    }
+    .nav-link {
+      /* color: white !important; */
+      font-size: 25px !important;
+    }
+
+    .navbar-brand {
+      font-size: 30px !important;
+    }
+
+    .nav li {
+      padding-right: 100px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+    .heading{
+      font-size: 60px;
+    }
+    .jumboText{
+      font-size: 25px;
+    }
+  </style>
+  <!--CSS end-->
+
+</head>
+<!-- <body style="background: url(http://sfwallpaper.com/images/hd-website-backgrounds-22.jpg);"> -->
+<body style="background-image: url('{% static "img/bg.jpg" %}'); background-size: 2000px 1000000px;">
+  <!--navbar -->
+  <nav class="navbar navbar-light bg-light navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="/home">TrackAtd</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="#">Hello, {{user.first_name}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://127.0.0.1:8000/accounts/logout">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="accounts/register">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="accounts/login">Login</a>
+          </li>
+        {% endif %}
+        
+
+      </ul>
+    </div>
+  </nav>
+  <br>
+  <!--navbar end-->
+  <div class="container" style="margin-top: 10px;" align="center">
+    <div class="jumbotron">
+      <h1 class="heading">Attendance Tracker</h1>
+      <p class="jumboText">Keep a track of you attendance on the go!</p>
+      <p class="jumboText">An interactive Web-App for students as well as teachers</p>
+    </div>
+  </div>
+
+  <!-- <div class="center"> -->
+    <form method="POST">
+      {% csrf_token %}
+      <div align="center">
+        {{form.name}}
+        <button type="submit" class="btn btn-primary btn-sm">Add Subject</button>
+      </div>
+
+      
+    </form>
+  <!-- </div> -->
+
+
+
+
+
+
+  {% for subject in studentAttendance %}
+  <div class="card_center">
+    <div class="card text-white bg-primary mb-3" style="width: 100%;">
+      <div class="card-body">
+        <h3>{{subject.name}} </h3>
+
+        <p>Lectures Attended-{{subject.attended}} <br />
+          Total Lectures- {{subject.total}} <br />
+          Subject Attendance - {{subject.attendance}}% </p>
+
+
+        <div class="btn_margin" style="float:right;">
+          <form action="/deleteSubject/{{subject.pk}}/" style="display: inline;" method="POST">
+            {% csrf_token %}
+            <button type="submit" value="delete" class="btn btn-warning">Delete</button>
+          </form>
+          <form action="/updateAttendance/{{subject.pk}}/0/" style="display: inline;" method="POST">
+            {% csrf_token %}
+
+            <button type="submit" value="tick" class="btn btn-success">Tick</button>
+          </form>
+          <form action="/updateAttendance/{{subject.pk}}/1/" style="display: inline;" method="POST">
+            {% csrf_token %}
+            <button type="submit" value="cross" class="btn btn-danger">Cross</button>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  {% endfor %}
+</body>
+
+</html>
