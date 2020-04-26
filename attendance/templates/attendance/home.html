@@ -35,7 +35,7 @@
     }
 
     .card-body {
-      background-color: gray;
+      background-color: teal;
     }
 
     .btn_margin {
@@ -81,30 +81,21 @@
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        {% if user.is_authenticated %}
+  
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Hello, {{user.first_name}}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/accounts/logout">Logout</a>
           </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="accounts/register">Register</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="accounts/login">Login</a>
-          </li>
-        {% endif %}
-        
-
-      </ul>
-    </div>
+        </ul>
+      </div>
+      
   </nav>
   <br>
   <!--navbar end-->
@@ -167,6 +158,8 @@
 
 
   {% endfor %}
+  <script src={% static "vendor/jquery/jquery.min.js" %}></script>
+  <script src={% static "vendor/bootstrap/js/bootstrap.bundle.min.js" %}></script>
 </body>
 
 </html>
